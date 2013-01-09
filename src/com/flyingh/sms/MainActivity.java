@@ -1,7 +1,10 @@
 package com.flyingh.sms;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.View;
@@ -23,9 +26,34 @@ public class MainActivity extends Activity {
 	}
 
 	public void sendSms(View view) {
-		SmsManager.getDefault().sendTextMessage(phone.getText().toString(),
-				null, msg.getText().toString(), null, null);
-		Toast.makeText(this, R.string.successInfo, Toast.LENGTH_LONG).show();
+		SmsManager smsManager = SmsManager.getDefault();
+		String phoneNumber = phone.getText().toString();
+		if (isNotPhone(phoneNumber)) {
+			phone.setTextColor(ColorStateList.valueOf(Color.RED));
+			showMsg(R.string.wrongNumber);
+			return;
+		}
+		String msgStr = msg.getText().toString();
+		if (isEmpty(msgStr)) {
+			showMsg(R.string.msgEmpty);
+			return;
+		}
+		for (String str : smsManager.divideMessage(msgStr)) {
+			smsManager.sendTextMessage(phoneNumber, null, str, null, null);
+		}
+		showMsg(R.string.successInfo);
+	}
+
+	private boolean isEmpty(String msgStr) {
+		return msgStr == null || msgStr.trim().length() == 0;
+	}
+
+	private void showMsg(int stringId) {
+		Toast.makeText(this, stringId, Toast.LENGTH_LONG).show();
+	}
+
+	private boolean isNotPhone(String phoneNumber) {
+		return !PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber);
 	}
 
 	@Override

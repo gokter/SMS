@@ -10,5 +10,7 @@
     <string name="defaultMsg">TC</string>
     <string name="successInfo">send success</string>
     <string name="defaultPhone">10086</string>
+    <string name="msgEmpty">the mseeage is empty</string>
+    <string name="wrongNumber">wrong phone number</string>
 
 </resources>
