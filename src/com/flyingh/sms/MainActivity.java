@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +23,28 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		phone = (EditText) findViewById(R.id.phone);
 		phone.setText(R.string.defaultPhone);
+		phone.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (isNotPhone(s.toString())) {
+					phone.setTextColor(ColorStateList.valueOf(Color.RED));
+				} else {
+					phone.setTextColor(Color.BLACK);
+				}
+			}
+
+		});
 		msg = (EditText) findViewById(R.id.msg);
 		msg.setText(R.string.defaultMsg);
 	}
