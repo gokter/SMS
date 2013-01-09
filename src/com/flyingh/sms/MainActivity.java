@@ -30,25 +30,25 @@ public class MainActivity extends Activity {
 		String phoneNumber = phone.getText().toString();
 		if (isNotPhone(phoneNumber)) {
 			phone.setTextColor(ColorStateList.valueOf(Color.RED));
-			showMsg(R.string.wrongNumber);
+			showLongMsg(R.string.wrongNumber);
 			return;
 		}
 		String msgStr = msg.getText().toString();
 		if (isEmpty(msgStr)) {
-			showMsg(R.string.msgEmpty);
+			showLongMsg(R.string.msgEmpty);
 			return;
 		}
 		for (String str : smsManager.divideMessage(msgStr)) {
 			smsManager.sendTextMessage(phoneNumber, null, str, null, null);
 		}
-		showMsg(R.string.successInfo);
+		showLongMsg(R.string.successInfo);
 	}
 
 	private boolean isEmpty(String msgStr) {
 		return msgStr == null || msgStr.trim().length() == 0;
 	}
 
-	private void showMsg(int stringId) {
+	private void showLongMsg(int stringId) {
 		Toast.makeText(this, stringId, Toast.LENGTH_LONG).show();
 	}
 
